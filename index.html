@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voting DApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f3ff;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      background: #5c6bc0;
+      color: white;
+      padding: 15px;
+      width: 100%;
+      text-align: center;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 15px;
+      width: 450px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .connect { background: #5c6bc0; color: white; }
+    .vote { background: #00b894; color: white; }
+    .status { background: #0984e3; color: white; }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background: #f2f2f2;
+    }
+    #p3, #metamasknotification, #cand, #status, #time {
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📊 Voting DApp</h1>
+
+  <div class="container">
+    <h2>Welcome to Secure Voting</h2>
+    <p>Make your vote count — powered by blockchain transparency.</p>
+
+    <button class="connect" onclick="connectMetamask()">🔗 Connect MetaMask</button>
+    <p id="metamasknotification"></p>
+
+    <hr>
+
+    <h3>🗳️ Cast Your Vote</h3>
+    <input id="vote" placeholder="Enter candidate index..." />
+    <button class="vote" onclick="addVote()">✅ Submit Vote</button>
+    <p id="cand"></p>
+
+    <button class="status" onclick="voteStatus()">📊 Check Voting Status</button>
+    <p id="status"></p>
+    <p id="time"></p>
+
+    <hr>
+
+    <h3>👥 Candidate List</h3>
+    <p id="p3">Click “Check Voting Status” to refresh candidate list.</p>
+
+    <table id="myTable">
+      <tr>
+        <th>Index</th>
+        <th>Candidate Name</th>
+        <th>Votes</th>
+      </tr>
+    </table>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

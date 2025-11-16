@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Candidates - Voting DApp</title>
+
+    <!-- Tailwind CSS & DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.css" rel="stylesheet" type="text/css" />
+
+    <!-- Ethers.js -->
+    <script src="https://unpkg.com/ethers@5.7.1/dist/ethers.umd.min.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="navbar bg-indigo-600 text-white shadow-lg">
+        <div class="flex-1">
+            <a href="index.html" class="text-xl font-bold pl-4 align-middle">🗳 Voting DApp</a>
+        </div>
+        <div>
+            <a href="index.html" class="btn btn-ghost text-white">Vote</a>
+            <a href="ListVoters.html" class="btn btn-ghost text-white">View Candidates</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto py-10 px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">🧑‍💼 Candidate List</h2>
+        <p id="p3" class="text-center text-gray-600">Loading candidates...</p>
+
+        <!-- Candidate Cards Container -->
+        <div id="candidateCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 px-4">
+            <!-- Cards go here -->
+        </div>
+    </div>
+
+    <script>
+        async function getAllCandidates() {
+            const container = document.getElementById("candidateCards");
+            const statusMessage = document.getElementById("p3");
+            container.innerHTML = "";  // Clear old data
+
+            if (!contractInstance) {
+                statusMessage.innerText = "⚠️ Please connect MetaMask first.";
+                return;
+            }
+
+            try {
+                statusMessage.innerText = "⏳ Fetching candidates...";
+
+                const candidates = await contractInstance.getAllVotesOfCandiates();
+                
+                if (candidates.length === 0) {
+                    statusMessage.innerText = "No candidates found.";
+                    return;
+                }
+
+                candidates.forEach((candidate, index) => {
+                    const card = `
+                        <div class="card bg-white shadow-xl border border-gray-200">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-lg font-semibold text-gray-700">#${index} - ${candidate.name}</h3>
+                                <p class="mt-2 text-gray-600">🗳 Votes: <span class="font-bold text-indigo-600 text-xl">${candidate.voteCount}</span></p>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+
+                statusMessage.innerText = "✅ Candidates loaded successfully!";
+
+            } catch (error) {
+                console.error(error);
+                statusMessage.innerText = "❌ Failed to load candidates.";
+            }
+        }
+
+        window.onload = getAllCandidates;
+    </script>
+
+</body>
+</html>
